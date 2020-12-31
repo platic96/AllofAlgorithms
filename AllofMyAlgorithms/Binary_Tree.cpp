@@ -72,4 +72,95 @@ struct Node {
 		if (left) size += left->size;
 		if (right) size += right->size;
 	}
+};
+
+//쪼개기 구현
+typedef pair<Node*, Node*> NodePair;
+
+NodePair split(Node* root, KeyType key) {
+	if (root == NULL) return NodePair(NULL, NULL);
+
+	if (root->key < key) {
+		NodePair rs = split(root->right, key);
+		root->setRighy(rs.first);
+		return NodePair(root, rs.second);
+	}
+
+	NodePair ls = split(root->left, key);
+	root->setLeft(ls.second);
+	return	NodePair(ls.first, root);
+}
+
+Node* insert(Node* root, Node* node) {
+	if (root == NULL) return node;
+	if (root->priority < node->priority) {
+		NodePair splitted = split(root, node->key);
+		node->setLeft(splitted.first);
+		node->setRighy(splitted.second);
+		return node;
+	}
+	else if (node->key < root->key) {
+		root->setLeft(insert(root->left, node));
+	}
+	else {
+		root->setRighy(insert(root->left, node));
+	}
+}
+// 추가와 삭제
+Node* merge(Node* a, Node* b) {
+	if (a == NULL) return b;
+	if (b == NULL) return a;
+	if (a->priority < b->priority) {
+		b->setLeft(merge(a, b->left));
+		return b;
+	}
+	a->setRighy(merge(a->right, b));
+	return a;
+}
+
+Node* erase(Node* root, KeyType key) {
+	if (root == NULL) return root;
+
+	if (root->key == key) {
+		Node* ret = merge(root->left, root->right);
+		delete root;
+		return ret;
+	}
+	if (key < root->key)
+		root->setLeft(erase(root->left, key));
+	else
+		root->setRighy(erase(root->right, key));
+	return root;
+}
+
+//트립에서 k번째 원소 찾기
+
+Node* kth(Node* root, int k) {
+	// 왼쪽 서브트리의 크기를 우선 계산한다.
+	int leftSize = 0;
+	if (root->left != NULL) leftSize = root->left->size;
+	if (k <= leftSize) return kth(root->left, k);
+	if (k == leftSize + 1) return root;
+	return kth(root->right, k - leftSize - 1);
+}
+
+//x보다 작은 원소 세기
+
+int countLessThan(Node* root, KeyType key) {
+	if (root == NULL) return 0;
+	if (root->key >= key)
+		return countLessThan(root->left, key);
+	int ls = (root->left ? root ->left->size : 0);
+	return ls + 1 + countLessThan(root->right, key);
+}
+
+int n, shifted[50000];
+int A[50000];
+
+void solve() {
+	Node* candidates = NULL;
+	for (int i = 0; i < n; ++i) {
+		int larger = shifted[i];
+		Node* k = kth(candidates,new Node(1+1))
+	}
 }
