@@ -1,0 +1,4 @@
+﻿  ITES.cpp
+e:\my\allofalgorithms\allofmyalgorithms\ites.cpp(32): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+e:\my\allofalgorithms\allofmyalgorithms\ites.cpp(33): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  AllofMyAlgorithms.vcxproj -> E:\MY\AllofAlgorithms\AllofMyAlgorithms\Debug\AllofMyAlgorithms.exe
